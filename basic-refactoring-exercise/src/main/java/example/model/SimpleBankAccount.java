@@ -9,6 +9,7 @@ public class SimpleBankAccount implements BankAccount {
 
     private double balance;
     private final AccountHolder holder;
+    private static final double WITHDRAW_FEE = 2.0;
 
     public SimpleBankAccount(final AccountHolder holder, final double balance) {
         this.holder = holder;
@@ -33,13 +34,22 @@ public class SimpleBankAccount implements BankAccount {
 
     @Override
     public void withdraw(final int userID, final double amount) {
-        if (checkUser(userID) && isWithdrawAllowed(amount)) {
-            this.balance -= amount;
+        if (!checkUser(userID)) {
+            throw new IllegalArgumentException("Withdraw not allowed: wrong id");
+        }
+        else {
+
+            if(!this.isWithdrawAllowed(amount + WITHDRAW_FEE)) {
+                throw new IllegalArgumentException("Insufficient balance");
+            }
+            else {
+                this.balance = this.balance - amount - WITHDRAW_FEE;
+            }
         }
     }
 
     private boolean isWithdrawAllowed(final double amount){
-        return this.balance >= amount;
+        return this.balance >= amount + WITHDRAW_FEE;
     }
 
     private boolean checkUser(final int id) {
