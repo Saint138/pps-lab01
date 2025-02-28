@@ -9,6 +9,8 @@ package tdd;
  */
 public interface SmartDoorLock {
 
+
+
     /**
      * Sets a new PIN for the door lock.
      * You can set only when the system is open (not locked or blocked).
@@ -68,4 +70,5 @@ public interface SmartDoorLock {
      * It sets the lock to the initial state (open).
      */
     void reset();
+    int getPin();
 }

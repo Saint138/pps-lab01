@@ -12,11 +12,11 @@ class SimpleBankAccountTest {
 
     private final int INITIAL_BALANCE = 0;
     private final int VALID_ACCOUNT_ID = 1;
-    private final int INVALID_ACCOUNT_ID = 2;
+    private static final int INVALID_ACCOUNT_ID = 2;
     private final int DEPOSIT_AMOUNT = 100;
     private final int PARTIAL_WITHDRAW_AMOUNT = 70;
     private final int OVERDRAW_AMOUNT = 200;
-    private static final double WITHDRAW_FEE = 2.0;
+    private static final double WITHDRAW_FEE = 1.0;
 
     private AccountHolder accountHolder;
     private BankAccount bankAccount;
@@ -45,7 +45,7 @@ class SimpleBankAccountTest {
     @Test
     void testWrongDeposit() {
         bankAccount.deposit(VALID_ACCOUNT_ID, DEPOSIT_AMOUNT);
-        bankAccount.deposit(INVALID_ACCOUNT_ID, 50);
+        bankAccount.deposit(INVALID_ACCOUNT_ID, DEPOSIT_AMOUNT);
         assertEquals(DEPOSIT_AMOUNT, bankAccount.getBalance());
     }
 
@@ -72,5 +72,17 @@ class SimpleBankAccountTest {
             bankAccount.withdraw(VALID_ACCOUNT_ID, OVERDRAW_AMOUNT);
         });
     }
+
+    @Test
+    void testWrongIdWithdraw() {
+        bankAccount.deposit(VALID_ACCOUNT_ID, DEPOSIT_AMOUNT);
+
+        // Prova a fare un prelievo con un id errato
+        assertThrows(IllegalArgumentException.class, () -> {
+            bankAccount.withdraw(INVALID_ACCOUNT_ID, PARTIAL_WITHDRAW_AMOUNT);
+        });
+    }
+
+
 
 }

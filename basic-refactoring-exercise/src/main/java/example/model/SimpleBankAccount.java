@@ -9,7 +9,7 @@ public class SimpleBankAccount implements BankAccount {
 
     private double balance;
     private final AccountHolder holder;
-    private static final double WITHDRAW_FEE = 2.0;
+    private static final double WITHDRAW_FEE = 1.0;
 
     public SimpleBankAccount(final AccountHolder holder, final double balance) {
         this.holder = holder;
@@ -49,7 +49,7 @@ public class SimpleBankAccount implements BankAccount {
     }
 
     private boolean isWithdrawAllowed(final double amount){
-        return this.balance >= amount + WITHDRAW_FEE;
+        return this.balance >= amount;
     }
 
     private boolean checkUser(final int id) {
